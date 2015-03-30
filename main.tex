@@ -1,7 +1,16 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage[]{amsmath, amsthm, amssymb}
 
-\title{StochasticProcesses}
+\theoremstyle{definition}
+\newtheorem{exmp}{Example}[section]
+\newtheorem{defn}{Definition}[section]
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\title{Notes for 36-733: Probability models and Stochatic Processes}
 \author{Philipp Burckhardt}
 \date{March 2015}
 
@@ -10,5 +19,218 @@
 \maketitle
 
 \section{Introduction}
+
+In Statistics, we often consider the case where data are iid (independent and identically distributed) observations from some underlying distribution $F_0$, i.e. $X_1, \ldots, X_n \sim F_0$. In regression analysis, we usually treat data as independent but coming from a different distribution:
+$Y_i \mid X_i \sim N \left( \mu(X_i), \sigma^2 \right)$.
+Our goal is to make inferences about the probabilities of some event involving $\vec{Y} = \left( Y_1, \ldots, Y_n \right)$:
+
+$$
+\Pr \left( \text{ some event involving } \vec{Y} \right) = \int_D f(\vec{y}) d\vec{y},
+$$
+
+when $Y \in D$. As one can see, we need access to the joint distribution to make inference on $\vec{Y}$. 
+In case that the data are independent, we have
+
+$$
+f_{\vec{Y}} \left( \vec{y} \right) = \prod_{i=1}^n f_{Y_i} \left(y_i \right)
+$$
+
+In this course, we treat dependent data. We therefore have to postulate a $n$-dimensional model, which in turn means that we need much larger samples for drawing inference because of the added complexity and the dependence in the data.
+Specifically, we will treat the following cases:
+\begin{enumerate}
+\item Data as time processes
+\item Data have Markov property
+\end{enumerate}
+
+Recall the definition of conditional probability:
+
+$$
+P (A \mid B) P(B) = P(A, B)
+$$
+
+$$
+f_{\vec{Y}} \left( \vec{y} \right) = f_{Y_n} ( y_n \mid \vec{Y}_{n-1} ) f_{\vec{Y}_{n-1}} ( \vec{y}_{n-1} ) = \left[ \prod_{i=2}^n f_{Y_i} (y_i \mid Y_1, \ldots, Y_{i-1} ) \right] f_{Y_1} (y_1)
+$$
+
+\begin{exmp}
+$Y_t \mid Y_{t-1} \sim N \left( Y_{t-1}, \sigma^2 \right)$
+\end{exmp}
+
+\section{Discrete time, discrete state space Markov chain}
+
+We assume that the state space $S$ is discrete or countable. The state space denotes the possible values the random variables int he chain can take: $X_n \in S$.
+
+\begin{defn}{Markov Property:} 
+$$
+\forall n > 0, \forall m > 0 \quad P\left( X_{m+n} = s \mid X_0 = x_0 , \ldots, X_m = x_m \right) = P \left( X_{m+n} = s \mid X_m = x_m \right) 
+$$
+\end{defn}
+
+To introduce some simplifying notation, let us define
+
+$$
+p_{ij} = P(X_{n+1} = j \mid X_n = i) \qquad \forall (i,j) \in S^2 \quad \forall n \in \mathbb{N}.
+$$
+
+Notice that the $p_{ij}$ are assumed to stay constant over time. We have 
+
+$$
+p( \vec X ) = p(X_0) \prod_{i=1}^n p(X_i \mid X_{i-1})
+$$
+
+\begin{exmp}
+$S = \{ \text{wet, dry} \}$. Then 
+$$
+P \left(X_{\text{Jan 2}} = \text{wet} \mid X_{Jan 1} = \text{wet} \right) \ne P \left(X_{\text{Jul 2}} = \text{wet} \mid X_{\text{Jul 1}} = \text{wet} \right),
+$$
+so this is not a \emph{stationary} process.
+\end{exmp}
+
+\begin{defn}
+Transition Matrix:
+$$
+P = \left[ p_{ij} \right], \qquad (i,j) \in S^2
+$$
+\end{defn}
+
+In the following examples, answer the following questions 
+
+\begin{enumerate}
+\item Is it a Markov chain?
+\item What is $P$?
+\end{enumerate}
+
+\begin{exmp} Simple Random Walk: Drunken Man on a Line. We assume that $X_t = X_{t-1} + 1$ with prob $p$ and $X_t = X_{t-1} - 1$ with prob $1-p$.
+\end{exmp}
+
+\begin{exmp} Random Walk with Self-Absorbing barriers: Gambler's Ruin. When $X_t = N$ or $X_t = 0$, the chain stays in the respective state forever. 
+\end{exmp}
+
+\begin{exmp} Inventory Problem:
+$X_n = \text{\# Paper Towel boxes left at day n}$.
+If $X_n = 0$, we order $2$ boxes which magically arrive over night. If $X_n > 0$, we do not place an order. Let $\xi = \text{ \# boxes used per day}$. We have $P(\xi = 0) = 0.5, P(\xi = 1) =0.4$ and $P(\xi = 2) = 0.1$.
+\end{exmp}
+
+\subsection{Questions of Interest}
+
+
+\section{Long-Run Behaviour of Markov Chains}
+We consider the situation when $n$ large, $n \to \infty$.
+
+If 
+$P \left( X_n = j \mid X_0 = i \right) = P \left( X_n = j \right) = P(X = j)$ independent of $i$ for $n > n_0$ large, then $\vec{\pi}$ with elements $\pi_j = P(X = j)$ denotes the limiting distribution of the MC.
+
+If a limiting distribution exists, we have for large $n$
+
+$$
+P(n) = \left[ p_{ij}(n) = P(X_n=j \mid X_0 = i)  \right]_{i,j} \to \begin{pmatrix} \vec{\pi} \\ \vdots \\ \vec{\pi} \\ \end{pmatrix}
+$$
+
+We also have $P(n) = P^n$ following from the Chapman-Kolmogorov Equations. This gives us two options to find the limiting distributions $\pi$:
+
+\begin{enumerate}
+\item Find $\pi$ using $P^n$ for large $n$.
+\item Find a stationary distribution and if limiting distribution exists, stationary distribution is equal to it.
+\end{enumerate}
+
+Let us denote $\mu_i^0 = P(X_0 = i)$ and $\vec{\mu}^0_i = \left( P(X_0 = 0), \ldots \right)$
+
+A stationary distribution $\delta$ is such that  
+$$
+\vec{\mu}^0 = \vec{\delta} \implies \forall n \in \mathbb{N}: \vec{\mu}^n = \vec{\delta}
+$$
+
+Observe that 
+
+$$
+p(X_1 = j) = \sum_{i \in S} P(X_1 = j \mid X_0 = i ) P(X_0 = i) \implies \vec{\mu}^1 = \vec{\mu}^0 P.
+$$
+
+The stationary distribution satisfies $ \vec \delta = \vec \delta P$.
+
+\begin{theorem}[Chapman-Kolmogorov-Equation]
+$$
+\forall (m, n, r) \in \mathbb{N}^3 \qquad P(m + r) = P(m) P(r).
+$$
+So we have for example $P(2) = P P = P^2$ and $P(n) = P^n$. 
+\begin{proof}
+By the law of total probability, we have
+
+\begin{align*}
+&P \left( X_{m + n + r} = j \mid X_m = i \right) \\
+&\qquad = \sum_{k \in S} P \left( X_{m + n} = k \mid X_n = i \right) P \left( X_{m + n + r} = j \mid X_{n+m} = k \right)
+\end{align*}
+
+Hence for all $i,j$ we have
+
+$$
+P_{ij}(m+r) = \sum_{k \in S} P_{ik}(m) P_{kj}(r) \implies P(m+r) = P(m) P(r).
+$$
+
+\end{proof}
+\end{theorem}
+
+
+\subsection{Classification of States}
+
+
+\begin{theorem}
+A persistent state $j$ is null if and only if $p_{jj}(n) \to 0$ as $n \to +\infty$.
+\end{theorem}
+
+\begin{align*}
+E_{11} 
+&= \frac{1}{2} E(T \mid X_0 = 1, X_1 = 1) + \frac{1}{2}  E(T \mid X_0 = 1, X_1 = 2) \\
+&= \frac{1}{2} + \frac{1}{2} ( 1 + E_{21} ) 
+\end{align*}
+
+\begin{defn}[Irreducibility]
+A chain is irreducible if $
+\forall (i,j) \in S^2 \, \exists (m,n)$ such that 
+$$
+p_{ij}(m) > 0 \text{ and } p_{ji}(n) > 0.
+$$
+\end{defn}
+
+\begin{theorem}
+If $S$ is inite, there is at least one persistent state and all persistent states are positive.
+\end{theorem}
+
+\begin{theorem}
+If $i \leftrightarrow j$, then 
+\begin{enumerate}
+\item $i$ and $j$ have the same period.
+\item $i$ transient if and only if $j$ is transient 
+\item $i$ persistent if and only if $j$ is persistent
+\item $i$ null persistent if and only if $i$ is. 
+\end{enumerate}
+\end{theorem}
+
+\begin{lemma}
+If $S$ is finite and the MC is irreducible, then all states are persistent non-null and have the same period.
+\end{lemma}
+
+\begin{theorem}
+An irreducible chain has a stationary distribution $\delta$ if and only if all states are positive persistent. Then $\delta$ is unique and satisfies
+$$
+\delta = \delta P \qquad \delta_i \ge 0 \qquad \sum \delta_i = 1.
+$$
+We do not have a similar statement for reducible Markov chains. 
+\end{theorem}
+
+\begin{theorem}
+For an irreducible, aperiodic chain
+$$
+\forall (i,j) \qquad  p_{ij}(n) \to \frac{1}{m_j} \text{ as } n \to \infty,
+$$
+where $m_j = E \left[ \text{ \# steps to first return to j} \mid X_0 = j \right]$ is the \emph{mean recurrence time}.
+\end{theorem}
+
+\begin{theorem}
+If the chain is irreducible and ergodic, then the limiting distribution exists, is unique and is given by
+$$
+p_{ij}(n) \to \frac{1}{m_j}.
+$$
+\end{theorem}
 
 \end{document}
