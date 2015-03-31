@@ -2,6 +2,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[]{amsmath, amsthm, amssymb}
 
+\usepackage{graphicx}
+
 \theoremstyle{definition}
 \newtheorem{exmp}{Example}[section]
 \newtheorem{defn}{Definition}[section]
@@ -112,7 +114,270 @@ If $X_n = 0$, we order $2$ boxes which magically arrive over night. If $X_n > 0$
 \end{exmp}
 
 \subsection{Questions of Interest}
+Two main categories of quantities of interest are the probabilities of events and the expected number of steps until a certain event happens. 
 
+Consider the following example in Figure \ref{fig:interest_plot01}:
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.75\textwidth]{images/interestPlot01}
+\caption{Example of a Markov Chain}
+\label{fig:interest_plot01}
+\end{figure}
+
+The corresponding transition matrix is 
+
+$$
+P = \begin{pmatrix}
+1 & 0 & 0 \\
+\alpha & \beta & \gamma  \\
+0 & 0 & 1 \\
+\end{pmatrix},
+$$
+
+where $\gamma = 1 - \alpha - \beta$. We are interested in the event of absorption in the first state given that the chain starts in state $2$. Define $ W= \cup_{i=0}^\infty \{X_i = 1\}$. Our quantity of interest thus is $P(W \mid X_0 = 2)$. 
+
+We have
+
+$$
+P(W \mid X_0 = 2) = \sum_{i=1}^3 P(W \mid X_0 = 2, X_1 = i) P(X_1 = i \mid X_0 = 2).
+$$
+
+Observe that 
+
+\begin{align*}
+ P(W \mid X_0 = 2, X_1 = 1) &= 1 \\
+ P(W \mid X_0 = 2, X_1 = 3) &= 0 \\
+  P(W \mid X_0 = 2, X_1 = 2) &=  P(W \mid X_0 = 2)
+\end{align*}
+
+To prove the last equality rigorously, let us use the definition of $W$:
+
+\begin{align*}
+  P(W \mid X_0 = 2, X_1 = 2) &= 
+  P \left( \cup_{i=1}^\infty \{X_i = 1\}  \mid X_0 = 2, X_1 = 2 \right) \\ 
+  &=  P \left( \cup_{i=2}^\infty \{X_i = 1\} \mid X_0 = 2, X_1 = 2 \right) \\
+  &= P \left( \cup_{i=2}^\infty \{X_i = 1\} \mid X_1 = 2 \right ) \; \text{[because of Markov property]} \\
+    &= P \left( \cup_{i=1}^\infty \{X_i = 1\} \mid X_0 = 2 \right) \; \text{ [because of Time-Homogeneity] }
+\end{align*}
+
+Next, we consider $E \left[ \text{\# steps till absorbed} \mid X_0 = 2 \right]$. We have
+
+$$
+E \left[ \text{\# steps till absorbed} \mid X_0 = 2 \right] = \sum_{i=1}^3 E \left[ \text{\# steps till absorbed} \mid X_0 = 2, X_1 = i \right] P(X_1 = i \mid X_0 = 2).
+$$
+
+Plugging in, we get
+$$
+E = \alpha + \beta (1 + E) + \gamma
+$$
+
+which solving for $E$ gives us the result $E= \frac{1}{1-\beta} = \frac{1}{\alpha + \gamma}$.
+
+\subsubsection*{First-Step Analysis} 
+Define $T = \text{\# steps till absorbed}$. We have just shown that 
+
+$$
+E\left[T \mid X_0 = 2 \right] =  \frac{1}{1-\beta}.
+$$
+
+By definition, we have
+
+$$
+E\left[T \mid X_0 = 2 \right] = \sum_{t=1}^\infty t \, P(T=t\mid X_0 = 2).
+$$
+
+Since $T \sim \text{Geometric}(1-\beta)$, we know that 
+$$
+P(T=t\mid X_0 = 2) = (1 - \beta)\,\beta^{t-1},
+$$
+
+so we could have also obtained the result via this route:
+
+
+\begin{align*}
+E\left[T \mid X_0 = 2 \right] 
+&= \sum_{t=1}^\infty t \,  \beta^{t-1}\,(1-\beta) \\
+&= \frac{1}{1-\beta} \quad \text{ [mean of Geometric r.v with parameter $1-\beta$]}
+\end{align*}
+
+$$
+E \left[ T \mid X_0 = 2, X_1 = 2 \right] \overset{?}{=} 1 + E \left[ T \mid X_0 = 2 \right]
+$$
+
+\begin{proof}
+
+\begin{align*}
+E \left[ T \mid X_0 = 2, X_1 = 2 \right] 
+&= \sum_{t=1}^\infty t P \left( X_t \ne 2, X_i = 2, i=1,\ldots,t-1 \mid X_0 = 2, X_1 = 2 \right) \\
+&= \sum_{t=1}^\infty t P \left( X_{t-1} \ne 2, X_1 = 2, \ldots, X_{t-2} \mid X_0 = 2 \right) \\
+&= \sum_{t=1}^\infty (t-1) P \left( X_t \ne 2,  X_1 = 2, \ldots, X_{t-1} = \mid X_0 = 2, X_1 = 2 \right) \\
+&\qquad \qquad + \sum_{t=1}^\infty P \left( X_t \ne 2, X_1 = 2, \ldots, X_{t-1} = 2 \mid X_0 = 2, X_1 = 2 \right) \\ 
+&= E\left[T \mid X_0 = 2 \right] +1
+\end{align*}
+
+\end{proof}
+
+Since it is possible that the chain is absorbed into state $3$, we have
+
+$$
+E \left[ \text{\# steps till absorbed at state 1} \mid X_0 = 2 \right] = \infty.
+$$
+
+Probably, we would rather be interested in this expectation conditional on the fact that the chain is absorbed at state $1$. Let $W$ be a random variable denoting that the chain is absorbed into state $1$. We would thus like to calculate 
+\begin{align*}
+&E \left[ \text{\# steps till absorbed at state 1} \mid X_0 = 2, W \right] \\
+&= E \left[ T \mid X_0 = 2, X_1 = 2, W \right] P(X_1 = 2 \mid X_0 = 2, W) \\
+&\qquad \qquad + E \left[ T \mid X_0 = 2, X_1 = 1, W \right] P(X_1 = 1 \mid X_0 = 2, W).
+\end{align*}
+
+To shorten the notation, define $E^\star[\cdot] = E[\cdot \mid W]$. We then have
+
+\begin{align*}
+&E^\star \left[ T \mid X_0 =2 \right] = (1 + E^\star \left[ T \mid X_0 = 2 \right]) P^\star (X_1 =2 \mid X_0 = 2) + P^\star (X_1 = 1 \mid X_0 =2) \\
+&\iff E^\star \left[ T \mid X_0 =2 \right] = (1 + E^\star \left[ T \mid X_0 = 2 \right]) \frac{\beta}{\alpha+\beta} + \frac{\alpha}{\alpha+\beta}
+\end{align*}
+
+We conclude that 
+
+$$
+E^\star \left[ T \mid X_0 =2 \right] = \frac{\alpha+\beta}{\alpha} = \frac{1}{\alpha/(\alpha+\beta)} = \frac{1/p(2\to1)}{p(2\to1 \text{ or } 2 \to 2)}
+$$
+
+\begin{defn}[Mean Recurrence Time] The mean recurrence time for state $i \in S$ is defined as 
+$$
+m_i = E \left[ \text{\# steps till chain first returns to i} \mid X_0 = i \right]
+$$
+\end{defn}
+
+In our example we have $m_1 = 1, m_2 = \infty, m_3 = 1$.
+
+\subsection{Random Walks}
+
+$$
+X_{t + \tau} = X_t + \varepsilon_{t + \tau}, \quad \tau \in \mathbb{R}^+
+$$
+
+Example of a random walk: Stock prices on the stock exchange. 
+
+$\tau = 1,2,\ldots$.
+
+$$
+X_{n+1} = X_n + \varepsilon_{n+1}
+$$
+
+In a simple random walk, $\varepsilon$ are iid. In this case, the process is a Markov chain. 
+
+\begin{exmp}[Gambler's Ruin]
+Let $p \in (0,1)$. The MC is defined as follows:
+$X_{n+1} = X_n + 1$ with prob $p$ and $X_{n+1} = X_n -1$ with prob $q=1-p$. The gambler has an initial wealth of $X_0 = \$k$. When $X_i = 0$, he is ruined, whereas he has become rich (and stops playing) when $X_i = N$. 
+\end{exmp}
+
+We might be interested in the event that the gambler is ruined. Let us define $p_k = \Pr \left( \text{ruin} \mid X_0 = k \right)$, where $k \in \{0, \ldots, N\}$. 
+Notice that we have the boundary conditions $p=0 = 1$ and $p_N = 0$. In addition, we have the following recurrence relation:
+
+$$
+p_k = p \, p_{k+1} + q \, p_{k-1} \iff 0 = p \, p_{k+1} + q \, p_{k-1} - p_k
+$$
+
+This is a second order linear difference equation. It is homogeneous because the left-hand side is equal to zero. 
+
+We can solve it as follows: 
+\begin{align*}
+&p_i = p \, p_{i+1} + q \, p_{i-1} \\
+&\iff p p_i + q p_i = p p_{i+1} + q p_{i-1} \\
+&\iff p_{i+1} - p_i = \tfrac{q}{p} \left( p_i - p_{i-1} \right) 
+\end{align*}
+
+We get
+\begin{align*}
+&p_2 - p_1 = \tfrac{q}{p} \left( p_1 - p_{0} \right) =  \tfrac{q}{p} p_1 \\
+&p_3 - p_2 =  \tfrac{q}{p} \left(p_2 - p_1 \right) = \left( \tfrac{q}{p} \right)^2 p_1 \\
+&p_{i+1}-p_i = \left( \tfrac{q}{p} \right)^i p_1 \text{ for } 0 < i < N
+\end{align*}
+
+It follows that 
+
+\begin{align*}
+&p_{i+1} - p_1 = \sum_{k=1}^i \left( \tfrac{q}{p} \right)^k p_1 \\
+&\iff p_{i+1} = p_1 + \sum_{k=1}^i \left( \tfrac{q}{p} \right)^k p_1 = \sum_{k=0}^i \left( \tfrac{q}{p} \right)^k p_1 = \begin{cases} p_1 (i+1) & \text{ if } q = p \\
+p_1 \frac{1-\left( \tfrac{q}{p} \right)^{i+1}}{1-\tfrac{q}{p}} & \text{ if } q \ne p\end{cases}
+\end{align*}
+
+With the boundary conditions:
+
+$$
+p_N = 1 = \begin{cases} p_1 N & \text{ if } q = p \\
+p_1 \frac{1-\left( \tfrac{q}{p} \right)^{N}}{1-\tfrac{q}{p}} & \text{ if } q \ne p\end{cases} \implies p_1 = \begin{cases} \frac{1}{N} & \text{ if } q = p \\
+ \frac{1-\left( \tfrac{q}{p} \right)^{1}}{1-\left( \tfrac{q}{p} \right)^N} & \text{ if } q \ne p\end{cases}
+$$
+
+More generally, we get 
+$$
+ p_i = \begin{cases} \frac{i}{N} & \text{ if } q = p \\
+ \frac{1-\left( \tfrac{q}{p} \right)^{i}}{1-\left( \tfrac{q}{p} \right)^N} & \text{ if } q \ne p\end{cases}
+$$
+
+Recall to always keep in mind what you are conditioning on. It is easy to make mistakes in that regard. 
+
+Consider the following difference equation and boundary conditions:
+
+\begin{align*}
+&p_k = p \, p_{k+1}  + q \, p_{k-1} \qquad k \in \{0, 1, \ldots, N\}\\
+&p_0 = 1 \\
+&p_N = 1\\
+\end{align*}
+
+We rewrite it: 
+
+$$
+0 = -p_k + p \, p_{k+1} + q \, p_{k-1} \implies p(x) = -x + px^2 + \frac{q}{p}
+$$
+
+$p(x)$ is the characteristic polynomial, for which we first calculate its roots:
+
+$$
+x_{1,2} = \frac{1}{2p} \pm \sqrt{\frac{1}{p^2} - \frac{q}{p}} \implies x_1 = 1 \text{ and } x_2 = \frac{q}{p}
+$$
+
+\subsection{Appendix A: Linear Difference Equations with Constant Coefficients}
+
+\subsubsection{Homogeneous Case}
+
+$$
+p_n = c_1 p_{n-1} + c_2 p_{n-2} + \ldots + c_d p_{n-d}
+$$
+
+Current term depends on $d$ previous terms. This is an ordered linear difference equation with constant coefficients. Since there is no constant term, we are dealing with the \emph{homogeneous case}. 
+
+We rewrite the equation as 
+
+$$
+0 = p_n - c_1 p_{n-1} - c_2 p_{n-2} + \ldots - c_d p_{n-d}
+$$
+
+Setting $n = d$, we get
+
+$$
+0 = p_d - c_1 p_{d-1} - c_2 p_{d-2} - \ldots - c_d p_{0}
+$$
+
+By replacing $p_i$ with $x^i$, we obtain the characteristic polynomial:
+
+$$
+p(x) = x^d - c_1 x^{d-1} - c_2 x^{d-2} - \ldots - c_d = 0
+$$
+
+We find the roots of the characteristic polynomial, i.e. the values which make it zero. There are at most $d$ roots- 
+Then solution to difference equation is 
+
+\begin{align*}
+p_n = 
+\end{align*}
+
+We need $d$ values
+
+\subsubsection{Inhomogeneous Case}
 
 \section{Long-Run Behaviour of Markov Chains}
 We consider the situation when $n$ large, $n \to \infty$.
@@ -170,9 +435,65 @@ $$
 \end{proof}
 \end{theorem}
 
+\subsubsection*{Examples}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{images/exmc1}
+\label{fig:exmc1}
+\caption{ The limiting and stationary distribution of this MC is given by $\vec \pi = [0.5, 0.5]$.}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{images/exmc2}
+\label{fig:exmc2}
+\caption{ The stationary distribution of this MC is given by $\vec \pi = [0.5, 0.5]$. However, the MC does not have a limiting distribution because of its periodic nature.}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{images/exmc3}
+\label{fig:exmc3}
+\caption{Since there cannot be a limiting distribution whenever there is an absorbing state, we only try to find a stationary distribution: In this case, an infinite number of such distributions exist: $\delta_1 = (0,1,0)$ and $\delta_2 = (0,0,1)$ work, and also any convex combination of these two states: $\delta_3 = \alpha \delta_1 + (1-\alpha) \delta_2$ for $\alpha \in [0,1)$.}
+\end{figure}
+
 
 \subsection{Classification of States}
 
+\begin{defn}[Persistent vs. Transient]
+A state is called \emph{persistent} or \emph{recurrent} if $P( \text{ return to j } \mid X_0 = j) = 1$ (in whatever number of steps). Otherwise it is called \emph{transient}.
+\end{defn}
+
+\begin{defn}[Positive vs. Null]
+A state is positive or non-null if its mean recurrence time is finite, i.e. 
+$E\left[ \text{ \# steps to return} \right] < \infty$. If $E\left[ \text{ \# steps to return} \right]~=~\infty$, the state is said to be null.
+\end{defn}
+
+\begin{defn}[Periodic]
+Positive non-null states can be further divided into whether they are periodic or non-periodic. 
+The period of state $x \in S$ is given by
+$$
+d(x)= gcd \{n \in \mathbb{N}+: p_{xx}(n)>0 \}.
+$$
+\end{defn}
+
+\begin{defn}[Ergodic]
+A state $x \in S$ is ergodic iff it is
+\begin{enumerate}
+\item persistent
+\item non-null
+\item non-periodic.
+\end{enumerate}
+\end{defn}
+
+\begin{exmp}[Simple Random Walk with Absorbing Barriers]
+Consider the SRW with absorbing states at $0, N$, where $N > 1$. The states $0,N$ are persistent with mean recurrence times $m_0 = m_N = 1$, i.e. they are also non-null. Finally, they are aperiodic. In contrast, all other states are transient, null since $m_j = \infty$ and have period $2$.
+\end{exmp}
+
+\begin{exmp}[Simple Random Walk]
+For the simple random walk with $S = \mathbb{Z}$, $p \in (0,1)$, the results depend on $p$. For $p \ne 1/2$, all states are transient. However, for $p=1/2$, the chain returns with probability $p=1$, hence states are persistent. However, they are again null and periodic, where the period is $2$.
+\end{exmp}
 
 \begin{theorem}
 A persistent state $j$ is null if and only if $p_{jj}(n) \to 0$ as $n \to +\infty$.
