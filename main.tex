@@ -31,7 +31,7 @@ $$
 \Pr \left( \text{ some event involving } \vec{Y} \right) = \int_D f(\vec{y}) d\vec{y},
 $$
 
-when $Y \in D$. As one can see, we need access to the joint distribution to make inference on $\vec{Y}$. 
+when $Y \in D$. As one can see, we need access to the joint distribution to make inference on $\vec{Y}$.
 In case that the data are independent, we have
 
 $$
@@ -63,9 +63,9 @@ $Y_t \mid Y_{t-1} \sim N \left( Y_{t-1}, \sigma^2 \right)$
 
 We assume that the state space $S$ is discrete or countable. The state space denotes the possible values the random variables int he chain can take: $X_n \in S$.
 
-\begin{defn}{Markov Property:} 
+\begin{defn}{Markov Property:}
 $$
-\forall n > 0, \forall m > 0 \quad P\left( X_{m+n} = s \mid X_0 = x_0 , \ldots, X_m = x_m \right) = P \left( X_{m+n} = s \mid X_m = x_m \right) 
+\forall n > 0, \forall m > 0 \quad P\left( X_{m+n} = s \mid X_0 = x_0 , \ldots, X_m = x_m \right) = P \left( X_{m+n} = s \mid X_m = x_m \right)
 $$
 \end{defn}
 
@@ -75,14 +75,14 @@ $$
 p_{ij} = P(X_{n+1} = j \mid X_n = i) \qquad \forall (i,j) \in S^2 \quad \forall n \in \mathbb{N}.
 $$
 
-Notice that the $p_{ij}$ are assumed to stay constant over time. We have 
+Notice that the $p_{ij}$ are assumed to stay constant over time. We have
 
 $$
 p( \vec X ) = p(X_0) \prod_{i=1}^n p(X_i \mid X_{i-1})
 $$
 
 \begin{exmp}
-$S = \{ \text{wet, dry} \}$. Then 
+$S = \{ \text{wet, dry} \}$. Then
 $$
 P \left(X_{\text{Jan 2}} = \text{wet} \mid X_{Jan 1} = \text{wet} \right) \ne P \left(X_{\text{Jul 2}} = \text{wet} \mid X_{\text{Jul 1}} = \text{wet} \right),
 $$
@@ -96,7 +96,7 @@ P = \left[ p_{ij} \right], \qquad (i,j) \in S^2
 $$
 \end{defn}
 
-In the following examples, answer the following questions 
+In the following examples, answer the following questions
 
 \begin{enumerate}
 \item Is it a Markov chain?
@@ -106,7 +106,7 @@ In the following examples, answer the following questions
 \begin{exmp} Simple Random Walk: Drunken Man on a Line. We assume that $X_t = X_{t-1} + 1$ with prob $p$ and $X_t = X_{t-1} - 1$ with prob $1-p$.
 \end{exmp}
 
-\begin{exmp} Random Walk with Self-Absorbing barriers: Gambler's Ruin. When $X_t = N$ or $X_t = 0$, the chain stays in the respective state forever. 
+\begin{exmp} Random Walk with Self-Absorbing barriers: Gambler's Ruin. When $X_t = N$ or $X_t = 0$, the chain stays in the respective state forever.
 \end{exmp}
 
 \begin{exmp} Inventory Problem:
@@ -115,7 +115,7 @@ If $X_n = 0$, we order $2$ boxes which magically arrive over night. If $X_n > 0$
 \end{exmp}
 
 \subsection{Questions of Interest}
-Two main categories of quantities of interest are the probabilities of events and the expected number of steps until a certain event happens. 
+Two main categories of quantities of interest are the probabilities of events and the expected number of steps until a certain event happens.
 
 Consider the following example in Figure \ref{fig:interest_plot01}:
 
@@ -126,7 +126,7 @@ Consider the following example in Figure \ref{fig:interest_plot01}:
 \label{fig:interest_plot01}
 \end{figure}
 
-The corresponding transition matrix is 
+The corresponding transition matrix is
 
 $$
 P = \begin{pmatrix}
@@ -136,7 +136,7 @@ P = \begin{pmatrix}
 \end{pmatrix},
 $$
 
-where $\gamma = 1 - \alpha - \beta$. We are interested in the event of absorption in the first state given that the chain starts in state $2$. Define $ W= \cup_{i=0}^\infty \{X_i = 1\}$. Our quantity of interest thus is $P(W \mid X_0 = 2)$. 
+where $\gamma = 1 - \alpha - \beta$. We are interested in the event of absorption in the first state given that the chain starts in state $2$. Define $ W= \cup_{i=0}^\infty \{X_i = 1\}$. Our quantity of interest thus is $P(W \mid X_0 = 2)$.
 
 We have
 
@@ -144,7 +144,7 @@ $$
 P(W \mid X_0 = 2) = \sum_{i=1}^3 P(W \mid X_0 = 2, X_1 = i) P(X_1 = i \mid X_0 = 2).
 $$
 
-Observe that 
+Observe that
 
 \begin{align*}
  P(W \mid X_0 = 2, X_1 = 1) &= 1 \\
@@ -155,8 +155,8 @@ Observe that
 To prove the last equality rigorously, let us use the definition of $W$:
 
 \begin{align*}
-  P(W \mid X_0 = 2, X_1 = 2) &= 
-  P \left( \cup_{i=1}^\infty \{X_i = 1\}  \mid X_0 = 2, X_1 = 2 \right) \\ 
+  P(W \mid X_0 = 2, X_1 = 2) &=
+  P \left( \cup_{i=1}^\infty \{X_i = 1\}  \mid X_0 = 2, X_1 = 2 \right) \\
   &=  P \left( \cup_{i=2}^\infty \{X_i = 1\} \mid X_0 = 2, X_1 = 2 \right) \\
   &= P \left( \cup_{i=2}^\infty \{X_i = 1\} \mid X_1 = 2 \right ) \; \text{[because of Markov property]} \\
     &= P \left( \cup_{i=1}^\infty \{X_i = 1\} \mid X_0 = 2 \right) \; \text{ [because of Time-Homogeneity] }
@@ -175,8 +175,8 @@ $$
 
 which solving for $E$ gives us the result $E= \frac{1}{1-\beta} = \frac{1}{\alpha + \gamma}$.
 
-\subsubsection*{First-Step Analysis} 
-Define $T = \text{\# steps till absorbed}$. We have just shown that 
+\subsubsection*{First-Step Analysis}
+Define $T = \text{\# steps till absorbed}$. We have just shown that
 
 $$
 E\left[T \mid X_0 = 2 \right] =  \frac{1}{1-\beta}.
@@ -188,7 +188,7 @@ $$
 E\left[T \mid X_0 = 2 \right] = \sum_{t=1}^\infty t \, P(T=t\mid X_0 = 2).
 $$
 
-Since $T \sim \text{Geometric}(1-\beta)$, we know that 
+Since $T \sim \text{Geometric}(1-\beta)$, we know that
 $$
 P(T=t\mid X_0 = 2) = (1 - \beta)\,\beta^{t-1},
 $$
@@ -197,7 +197,7 @@ so we could have also obtained the result via this route:
 
 
 \begin{align*}
-E\left[T \mid X_0 = 2 \right] 
+E\left[T \mid X_0 = 2 \right]
 &= \sum_{t=1}^\infty t \,  \beta^{t-1}\,(1-\beta) \\
 &= \frac{1}{1-\beta} \quad \text{ [mean of Geometric r.v with parameter $1-\beta$]}
 \end{align*}
@@ -209,11 +209,11 @@ $$
 \begin{proof}
 
 \begin{align*}
-E \left[ T \mid X_0 = 2, X_1 = 2 \right] 
+E \left[ T \mid X_0 = 2, X_1 = 2 \right]
 &= \sum_{t=1}^\infty t P \left( X_t \ne 2, X_i = 2, i=1,\ldots,t-1 \mid X_0 = 2, X_1 = 2 \right) \\
 &= \sum_{t=1}^\infty t P \left( X_{t-1} \ne 2, X_1 = 2, \ldots, X_{t-2} \mid X_0 = 2 \right) \\
 &= \sum_{t=1}^\infty (t-1) P \left( X_t \ne 2,  X_1 = 2, \ldots, X_{t-1} = \mid X_0 = 2, X_1 = 2 \right) \\
-&\qquad \qquad + \sum_{t=1}^\infty P \left( X_t \ne 2, X_1 = 2, \ldots, X_{t-1} = 2 \mid X_0 = 2, X_1 = 2 \right) \\ 
+&\qquad \qquad + \sum_{t=1}^\infty P \left( X_t \ne 2, X_1 = 2, \ldots, X_{t-1} = 2 \mid X_0 = 2, X_1 = 2 \right) \\
 &= E\left[T \mid X_0 = 2 \right] +1
 \end{align*}
 
@@ -225,7 +225,7 @@ $$
 E \left[ \text{\# steps till absorbed at state 1} \mid X_0 = 2 \right] = \infty.
 $$
 
-Probably, we would rather be interested in this expectation conditional on the fact that the chain is absorbed at state $1$. Let $W$ be a random variable denoting that the chain is absorbed into state $1$. We would thus like to calculate 
+Probably, we would rather be interested in this expectation conditional on the fact that the chain is absorbed at state $1$. Let $W$ be a random variable denoting that the chain is absorbed into state $1$. We would thus like to calculate
 \begin{align*}
 &E \left[ \text{\# steps till absorbed at state 1} \mid X_0 = 2, W \right] \\
 &= E \left[ T \mid X_0 = 2, X_1 = 2, W \right] P(X_1 = 2 \mid X_0 = 2, W) \\
@@ -239,13 +239,13 @@ To shorten the notation, define $E^\star[\cdot] = E[\cdot \mid W]$. We then have
 &\iff E^\star \left[ T \mid X_0 =2 \right] = (1 + E^\star \left[ T \mid X_0 = 2 \right]) \frac{\beta}{\alpha+\beta} + \frac{\alpha}{\alpha+\beta}
 \end{align*}
 
-We conclude that 
+We conclude that
 
 $$
 E^\star \left[ T \mid X_0 =2 \right] = \frac{\alpha+\beta}{\alpha} = \frac{1}{\alpha/(\alpha+\beta)} = \frac{1/p(2\to1)}{p(2\to1 \text{ or } 2 \to 2)}
 $$
 
-\begin{defn}[Mean Recurrence Time] The mean recurrence time for state $i \in S$ is defined as 
+\begin{defn}[Mean Recurrence Time] The mean recurrence time for state $i \in S$ is defined as
 $$
 m_i = E \left[ \text{\# steps till chain first returns to i} \mid X_0 = i \right]
 $$
@@ -259,7 +259,7 @@ $$
 X_{t + \tau} = X_t + \varepsilon_{t + \tau}, \quad \tau \in \mathbb{R}^+
 $$
 
-Example of a random walk: Stock prices on the stock exchange. 
+Example of a random walk: Stock prices on the stock exchange.
 
 $\tau = 1,2,\ldots$.
 
@@ -267,27 +267,27 @@ $$
 X_{n+1} = X_n + \varepsilon_{n+1}
 $$
 
-In a simple random walk, $\varepsilon$ are iid. In this case, the process is a Markov chain. 
+In a simple random walk, $\varepsilon$ are iid. In this case, the process is a Markov chain.
 
 \begin{exmp}[Gambler's Ruin]
 Let $p \in (0,1)$. The MC is defined as follows:
-$X_{n+1} = X_n + 1$ with prob $p$ and $X_{n+1} = X_n -1$ with prob $q=1-p$. The gambler has an initial wealth of $X_0 = \$k$. When $X_i = 0$, he is ruined, whereas he has become rich (and stops playing) when $X_i = N$. 
+$X_{n+1} = X_n + 1$ with prob $p$ and $X_{n+1} = X_n -1$ with prob $q=1-p$. The gambler has an initial wealth of $X_0 = \$k$. When $X_i = 0$, he is ruined, whereas he has become rich (and stops playing) when $X_i = N$.
 \end{exmp}
 
-We might be interested in the event that the gambler is ruined. Let us define $p_k = \Pr \left( \text{ruin} \mid X_0 = k \right)$, where $k \in \{0, \ldots, N\}$. 
+We might be interested in the event that the gambler is ruined. Let us define $p_k = \Pr \left( \text{ruin} \mid X_0 = k \right)$, where $k \in \{0, \ldots, N\}$.
 Notice that we have the boundary conditions $p=0 = 1$ and $p_N = 0$. In addition, we have the following recurrence relation:
 
 $$
 p_k = p \, p_{k+1} + q \, p_{k-1} \iff 0 = p \, p_{k+1} + q \, p_{k-1} - p_k
 $$
 
-This is a second order linear difference equation. It is homogeneous because the left-hand side is equal to zero. 
+This is a second order linear difference equation. It is homogeneous because the left-hand side is equal to zero.
 
-We can solve it as follows: 
+We can solve it as follows:
 \begin{align*}
 &p_i = p \, p_{i+1} + q \, p_{i-1} \\
 &\iff p p_i + q p_i = p p_{i+1} + q p_{i-1} \\
-&\iff p_{i+1} - p_i = \tfrac{q}{p} \left( p_i - p_{i-1} \right) 
+&\iff p_{i+1} - p_i = \tfrac{q}{p} \left( p_i - p_{i-1} \right)
 \end{align*}
 
 We get
@@ -297,7 +297,7 @@ We get
 &p_{i+1}-p_i = \left( \tfrac{q}{p} \right)^i p_1 \text{ for } 0 < i < N
 \end{align*}
 
-It follows that 
+It follows that
 
 \begin{align*}
 &p_{i+1} - p_1 = \sum_{k=1}^i \left( \tfrac{q}{p} \right)^k p_1 \\
@@ -313,13 +313,13 @@ p_1 \frac{1-\left( \tfrac{q}{p} \right)^{N}}{1-\tfrac{q}{p}} & \text{ if } q \ne
  \frac{1-\left( \tfrac{q}{p} \right)^{1}}{1-\left( \tfrac{q}{p} \right)^N} & \text{ if } q \ne p\end{cases}
 $$
 
-More generally, we get 
+More generally, we get
 $$
  p_i = \begin{cases} \frac{i}{N} & \text{ if } q = p \\
  \frac{1-\left( \tfrac{q}{p} \right)^{i}}{1-\left( \tfrac{q}{p} \right)^N} & \text{ if } q \ne p\end{cases}
 $$
 
-Recall to always keep in mind what you are conditioning on. It is easy to make mistakes in that regard. 
+Recall to always keep in mind what you are conditioning on. It is easy to make mistakes in that regard.
 
 Consider the following difference equation and boundary conditions:
 
@@ -329,7 +329,7 @@ Consider the following difference equation and boundary conditions:
 &p_N = 1\\
 \end{align*}
 
-We rewrite it: 
+We rewrite it:
 
 $$
 0 = -p_k + p \, p_{k+1} + q \, p_{k-1} \implies p(x) = -x + px^2 + \frac{q}{p}
@@ -349,9 +349,9 @@ $$
 p_n = c_1 p_{n-1} + c_2 p_{n-2} + \ldots + c_d p_{n-d}
 $$
 
-Current term depends on $d$ previous terms. This is an ordered linear difference equation with constant coefficients. Since there is no constant term, we are dealing with the \emph{homogeneous case}. 
+Current term depends on $d$ previous terms. This is an ordered linear difference equation with constant coefficients. Since there is no constant term, we are dealing with the \emph{homogeneous case}.
 
-We rewrite the equation as 
+We rewrite the equation as
 
 $$
 0 = p_n - c_1 p_{n-1} - c_2 p_{n-2} + \ldots - c_d p_{n-d}
@@ -369,8 +369,8 @@ $$
 p(x) = x^d - c_1 x^{d-1} - c_2 x^{d-2} - \ldots - c_d = 0
 $$
 
-We find the roots of the characteristic polynomial, i.e. the values which make it zero. There are at most $d$ roots- 
-Then solution to difference equation is 
+We find the roots of the characteristic polynomial, i.e. the values which make it zero. There are at most $d$ roots-
+Then solution to difference equation is
 
 \begin{align*}
 p_n =  x_1^n \times \left[ A_11 + A_12 n + A_13 n^2 + \ldots A_{1n} n \right]
@@ -381,7 +381,7 @@ We need $d$ values
 \subsubsection{Inhomogeneous Case}
 
 $$
-p_n = c_1 p_{n-1} + c_2 p_{n-2} + \ldots + c_d p_{n-d} + K 
+p_n = c_1 p_{n-1} + c_2 p_{n-2} + \ldots + c_d p_{n-d} + K
 $$
 
 This is the \emph{imhomogeneous case} because of the constant $K$ which does not depend on $n$.
@@ -391,7 +391,7 @@ $$
 p_n = \text{solution to homogeneous eq.} + \text{particular solution}
 $$
 
-To calculate the particular solution, one has to find some $p_n$ which satisfies the equation. There is no foolproof way to do this and solutions might not be unique. The coefficients are then determined using the boundary conditions. 
+To calculate the particular solution, one has to find some $p_n$ which satisfies the equation. There is no foolproof way to do this and solutions might not be unique. The coefficients are then determined using the boundary conditions.
 
 If particular solution cannot be found, one can reduce the inhomogeneous equation to homogeneous one by differentiation:
 
@@ -409,12 +409,12 @@ $$
 $$
 \end{exmp}
 
-We then have to find the roots of the third order polynomial, which is not an easy task as there is no systematic method. However, in case of linear equations, it is usually possible to find solutions. 
+We then have to find the roots of the third order polynomial, which is not an easy task as there is no systematic method. However, in case of linear equations, it is usually possible to find solutions.
 
 \section{Long-Run Behaviour of Markov Chains}
 We consider the situation when $n$ large, $n \to \infty$.
 
-If 
+If
 $P \left( X_n = j \mid X_0 = i \right) = P \left( X_n = j \right) = P(X = j)$ independent of $i$ for $n > n_0$ large, then $\vec{\pi}$ with elements $\pi_j = P(X = j)$ denotes the limiting distribution of the MC.
 
 If a limiting distribution exists, we have for large $n$
@@ -432,12 +432,12 @@ We also have $P(n) = P^n$ following from the Chapman-Kolmogorov Equations. This 
 
 Let us denote $\mu_i^0 = P(X_0 = i)$ and $\vec{\mu}^0_i = \left( P(X_0 = 0), \ldots \right)$
 
-A stationary distribution $\delta$ is such that  
+A stationary distribution $\delta$ is such that
 $$
 \vec{\mu}^0 = \vec{\delta} \implies \forall n \in \mathbb{N}: \vec{\mu}^n = \vec{\delta}
 $$
 
-Observe that 
+Observe that
 
 $$
 p(X_1 = j) = \sum_{i \in S} P(X_1 = j \mid X_0 = i ) P(X_0 = i) \implies \vec{\mu}^1 = \vec{\mu}^0 P.
@@ -449,7 +449,7 @@ The stationary distribution satisfies $ \vec \delta = \vec \delta P$.
 $$
 \forall (m, n, r) \in \mathbb{N}^3 \qquad P(m + r) = P(m) P(r).
 $$
-So we have for example $P(2) = P P = P^2$ and $P(n) = P^n$. 
+So we have for example $P(2) = P P = P^2$ and $P(n) = P^n$.
 \begin{proof}
 By the law of total probability, we have
 
@@ -498,12 +498,12 @@ A state is called \emph{persistent} or \emph{recurrent} if $P( \text{ return to 
 \end{defn}
 
 \begin{defn}[Positive vs. Null]
-A state is positive or non-null if its mean recurrence time is finite, i.e. 
+A state is positive or non-null if its mean recurrence time is finite, i.e.
 $E\left[ \text{ \# steps to return} \right] < \infty$. If $E\left[ \text{ \# steps to return} \right]~=~\infty$, the state is said to be null.
 \end{defn}
 
 \begin{defn}[Periodic]
-Positive non-null states can be further divided into whether they are periodic or non-periodic. 
+Positive non-null states can be further divided into whether they are periodic or non-periodic.
 The period of state $x \in S$ is given by
 $$
 d(x)= gcd \{n \in \mathbb{N}+: p_{xx}(n)>0 \}.
@@ -532,14 +532,14 @@ A persistent state $j$ is null if and only if $p_{jj}(n) \to 0$ as $n \to +\inft
 \end{theorem}
 
 \begin{align*}
-E_{11} 
+E_{11}
 &= \frac{1}{2} E(T \mid X_0 = 1, X_1 = 1) + \frac{1}{2}  E(T \mid X_0 = 1, X_1 = 2) \\
-&= \frac{1}{2} + \frac{1}{2} ( 1 + E_{21} ) 
+&= \frac{1}{2} + \frac{1}{2} ( 1 + E_{21} )
 \end{align*}
 
 \begin{defn}[Irreducibility]
 A chain is irreducible if $
-\forall (i,j) \in S^2 \, \exists (m,n)$ such that 
+\forall (i,j) \in S^2 \, \exists (m,n)$ such that
 $$
 p_{ij}(m) > 0 \text{ and } p_{ji}(n) > 0.
 $$
@@ -550,12 +550,12 @@ If $S$ is inite, there is at least one persistent state and all persistent state
 \end{theorem}
 
 \begin{theorem}
-If $i \leftrightarrow j$, then 
+If $i \leftrightarrow j$, then
 \begin{enumerate}
 \item $i$ and $j$ have the same period.
-\item $i$ transient if and only if $j$ is transient 
+\item $i$ transient if and only if $j$ is transient
 \item $i$ persistent if and only if $j$ is persistent
-\item $i$ null persistent if and only if $i$ is. 
+\item $i$ null persistent if and only if $i$ is.
 \end{enumerate}
 \end{theorem}
 
@@ -568,7 +568,7 @@ An irreducible chain has a stationary distribution $\delta$ if and only if all s
 $$
 \delta = \delta P \qquad \delta_i \ge 0 \qquad \sum \delta_i = 1.
 $$
-We do not have a similar statement for reducible Markov chains. 
+We do not have a similar statement for reducible Markov chains.
 \end{theorem}
 
 \begin{theorem}
@@ -622,12 +622,12 @@ Let us define $f_{00}(i) =  P(B_i \mid X_0 = 0)$.
 $$
 p_{00}(i) = P(\text{ return to 0 in i steps} \mid X_0 = 0) = \begin{cases}
 0 & \text{ if i odd} \\
-{ i \choose i/2} p^{i/2} q^{i/2} & \text{ if i even} 
+{ i \choose i/2} p^{i/2} q^{i/2} & \text{ if i even}
 \end{cases}
 $$
 
 \begin{align*}
-p_{00}(i) = p(X_i = 0 \mid X_0 = 0) 
+p_{00}(i) = p(X_i = 0 \mid X_0 = 0)
 &= \sum_{k=1}^i P(X=0 \mid B_k, X_0 = 0) P(B_k \mid X_0 = 0) \\
 &=  \sum_{k=1}^i p_{00}(i-k) f_{00}(k)
 \end{align*}
@@ -647,11 +647,11 @@ $$
 a_i = f_{00}(i) = P(B_i \mid X_0 = 0)
 $$
 
-$$ 
+$$
 F_{00}(s) = \sum_{i=0}^\infty f_{00}(i) s^i,
 $$
 
-with $f_{00}(0) = 0$. 
+with $f_{00}(0) = 0$.
 
 $$
 p_{00}(s) = \sum_{i=0}^\infty p_{00}(i) s^i,
@@ -660,7 +660,7 @@ $$
 Since we have
 $p_{00}(i)  = \begin{cases}
 0 & \text{ if i odd} \\
-{ i \choose i/2} p^{i/2} q^{i/2} & \text{ if i even} 
+{ i \choose i/2} p^{i/2} q^{i/2} & \text{ if i even}
 \end{cases}$, we get
 
 $$
@@ -678,7 +678,7 @@ Observe that if $p=q$, this quantity is infinity.
 \begin{defn}[Convolution]
 Continuous case:
 $$
-\int g(y-x) f(x) dx 
+\int g(y-x) f(x) dx
 $$
 Discrete case:
 $$
@@ -687,8 +687,8 @@ $$
 \end{defn}
 
 \begin{theorem}
-Let us consider two sequences $a_0, a_1, \ldots$ and $b_0, b_1, b2$ with generating functions $G_a(s)$ and $G_b(s)$ then 
-$c_0,c_1,c_2$ where $c_k = \sum_{i=0}^k a_i b_{k-i}$, then 
+Let us consider two sequences $a_0, a_1, \ldots$ and $b_0, b_1, b2$ with generating functions $G_a(s)$ and $G_b(s)$ then
+$c_0,c_1,c_2$ where $c_k = \sum_{i=0}^k a_i b_{k-i}$, then
 $G_c(s) = G_a(s) \, G_b(s)$.
 
 \begin{proof}
@@ -702,11 +702,11 @@ where $c_k = \sum_{(i,j) \text{s.t.} i+j=k} a_i b_j = \sum_{i=0}^k a_i b_{k-i}$.
 
 We have proven that $p_{00}(i) = \sum_{k=1}^i p_{00}(i-k) f_{00}(i)$ for $i \ge 1$. When $p=0$, $p_{00}(0) = 1$ and $f_{00}(0) = 0$.
 
-\end{exmp} 
+\end{exmp}
 
 \subsection{Reversible Chains}
 
-Let $\{X_n\}$ be an irreducible, persistent, positive MC ($\implies !\exists \text{ stationary distribution } \pi$). 
+Let $\{X_n\}$ be an irreducible, persistent, positive MC ($\implies !\exists \text{ stationary distribution } \pi$).
 
 $$
 \forall n \, X_n \sim \pi.
@@ -715,14 +715,14 @@ $$
 $N$ large, $Y_n = X_{N-n}$.
 
 \begin{theorem}
-$Y_n$ is a MC with transition probabilities 
+$Y_n$ is a MC with transition probabilities
 $$
 q_{ij} = p_{ji} \frac{\pi_j}{\pi_i}
 $$
 \begin{proof}
 
 \begin{align*}
-    \forall n \, P\left( Y_n = j \mid Y_{n-1} = i, Y_{n-2} = k, \ldots \right) 
+    \forall n \, P\left( Y_n = j \mid Y_{n-1} = i, Y_{n-2} = k, \ldots \right)
     &= P \left( X_{N-n} = j \mid X_{N-(n-1)} = i, X_{N-(n-2)}=k \right) \\
     &= \frac{P \left( X_{N-n} = j, X_{N-(n-1)} = i, X_{N-(n-2)}=k \right) }{P \left( X_{N-(n-1)}=i, X_{N-(n-2)} = k\right)} \\
     &= \frac{P(X_{N-(n-1)} = i \mid X_{N-n} = j) P(X_{N-n} = j) }{P(X_{N-(n-1)})} \\
@@ -733,7 +733,7 @@ $$
 \end{theorem}
 
 \begin{defn}
-A MC is called reversible if 
+A MC is called reversible if
 $$
 \forall (i,j) \, p_{ij} = q_{ij}
 $$
@@ -745,27 +745,140 @@ $$
 
 \begin{theorem}
 Let $P$ be transition matrix of irreducible chain. Suppose $\exists$ distribution $\pi$ s.t. $\forall (i,j) \in S^2 \, \pi_i p_{ij} = \pi_j p_{ji}$,
-then $\pi$ is a stationary distribution of the Markov chain. 
+then $\pi$ is a stationary distribution of the Markov chain.
 
 \begin{proof}
-We prove that $\pi = \pi P$. 
+We prove that $\pi = \pi P$.
 $$
 \forall i \, \pi_i = \sum_j \pi_j p_{ji}
 $$
-
 \end{proof}
 \end{theorem}
 
 \section{Markov Chain Monte Carlo (MCMC)}
 MCMC = art of building MC with specified limiting distributions.
 
-Let $f_X(x)$ be a distribution, we want $E(X) = \int x f(x) \, dx$. 
+Let $f_X(x)$ be a distribution, we want $E(X) = \int x f(x) \, dx$.
+
+Often, such integrals might be hard to compute, even if we have access to $f(x)$
+. A possible solution is to estimate the expectation via the sample mean:
+
+$$
+E[X] \approx \frac{\sum x_i}{n}
+$$
+
+Problem: We need to be able to generate samples from $f$.
+
+\subsection{How to Draw Samples}
+
+\subsubsection{Inverse CDF Method}
+Let $X$ be distributed with CDF $F_X$ and pdf $f_X$. Then $Y = F_X(x) \sim U[0,1]$ and
+$F_X^{-1}(Y) \sim f_X$. Thus, we can generate samples from $f_X$ by drawing from a
+uniform distribution and evaluating the inverse CDF at said values.
+
+\subsubsection{Rejection Sampling}
+
+\subsubsection{Metropolis-Hastings Algorithm}
+We wish to sample from $\pi$, where we assume that $\pi$ can take discrete values in $S$.
+
+Choosing transition probability matrix $H = [h_{ij}] \quad (i,j) \in S^2$ and
+given acceptance probabilities $A = [a_{ij}], \, a_{ij} \in [0,1]$, the Metropolis-Hastings
+Algorithm works as follows:
+
+Given $X_n = i$, we propose a new state from $H$. We accept this new state with probability
+$a_{ij}$ and reject with $1-a_{ij}$. In other words:
+$$
+X_{n+1} =
+\begin{cases}
+j & \text{with prob} a_{ij} \\
+X_n & \text{otherwise}
+\end{cases}
+$$
+
+When $i \ne j$, the probability of moving from state $i$ to $j$ is
+
+$$
+p_{ij} = h_{ij} a_{ij}
+$$
+
+In case that $i = j$, there is both the possibility that the proposed state is
+by chance equal to the current state or that the move is rejected. Hence we have
+
+$$
+p_{ii} = h_{ii} (a_{ii} + 1 - a_{ii}) + \sum_{k \ne i } h_{ik} ( 1 - a_{ik} ) = 1 - \sum_{k \ne i} h_{ik} a_{ik}
+$$
+
+For the Markov chain to have stationary distribution $\pi$, we require the
+detailed balance equation to hold:
+
+$$
+\pi = \pi P.
+$$
+
+If we can choose acceptance probabilities $A$ to make this equality hold, we have constructed a MC with stationary
+distribution $\pi$. We require
+
+$$
+\pi_i p_{ij} = \pi_j p_{ji} \, \forall (i,j)
+$$
+
+When we choose
+$$
+a_{ij} = \min \left( 1, \frac{\pi_j h_{ji}}{\pi_i h_{ij}} \right),
+$$
+
+we can show that the detailed balance equations do in fact hold:
+
+When $i \ne j$, consider case $\frac{\pi_j h_{ji}}{\pi_i h_{ij}} < 1$. Then
+
+$$
+a_{ij} = \frac{\pi_j h_{ji}}{\pi_i h_{ij}}
+$$
+
+and
+$$
+a_{ji} = \min \left( 1, \frac{\pi_i h_{ij}}{\pi_j h_{ji}} \right) = 1 \text{ since } \frac{\pi_j h_{ji}}{\pi_i h_{ij}} < 1
+$$
+
+and therefore
+$$
+\pi_i h_{ij} a_{ij} = \pi_j h_{ji} a_{ji} \iff \pi_i h_{ij} \frac{\pi_j h_{ji}}{\pi_i h_{ij}} = \pi_j h_{ji},
+$$
+
+which is clearly true.
+
+\begin{exmp}
+Let $\pi = f(x) = N(0,1)$. Let $Y \sim U \left[ X_n - \frac{1}{2}, X_n + \frac{1}{2} \right]  \implies$
+
+$$
+a_{ij} = \min \left( 1, \frac{\pi_j h_{ji}}{\pi_i h_{ij}} \right),
+$$
+
+with $\pi_j = \frac{1}{\sqrt{2\pi}} e^{-j^2/2}$,
+$h_{ij} = \begin{cases}
+    1 & \text{ if } | i - j | < 1/2 \\
+    0 & \text{ else}
+\end{cases}$.
+
+We have
+
+$$
+\frac{\pi_j h_{ji}}{\pi_i h_{ij}} = \frac{\sqrt{2\pi}}{\sqrt{2\pi}} \frac{e^{-j^2/2}}{e^{-i^2/2}} = e^{-\frac{j^2}{2} + \frac{i^2}{2}}
+$$
+
+so accept with probability
+
+$$
+a_{ij} = \min \left( 1, e^{-\frac{j^2}{2} + \frac{i^2}{2}} \right)
+$$
+
+\end{exmp}
 
 \section{Continuous Time Processes}
 
 \subsection{Properties of Poisson Process}
 
-\subsubsection{Inter-arrival & Wait Times}
+\subsubsection{Inter-arrival \& Waiting Times}
 
 $$
 T_i = \sum_{j=1}^i X_j \qquad X_i = T_i - T_{i-1}
@@ -774,18 +887,102 @@ $$
 \begin{theorem}
 If the process is Poisson, then
 \begin{enumerate}
-\item X_i \overset{iid}{\sim} \exp(\lambda)
-\item \forall k, T_k \sim \Gamma(k, \lambda)
+\item $X_i \overset{iid}{\sim} \exp(\lambda)$
+\item $\forall k, T_k \sim \Gamma(k, \lambda)$
 \end{enumerate}
 \begin{proof}
+We prove both statements independently:
 \begin{enumerate}
 \item $F_X(x) = P(X_i \le x)$. Can do it in terms of $T$'s: $P(T_i - T_{i-1} \le x)$, but joint distribution very hard. So let's do it in terms of $N(t)$'s:
-First: $X_1 = T_1 \implies f_X(t) = \lambda e^{-\lambda t}$. But we don't get far. 
+First: $X_1 = T_1 \implies f_X(t) = \lambda e^{-\lambda t}$. But we don't get far.
+Back to N's: $P(x_i \le x) = 1 - P(x_i \ge x) = 1 - \int P(x_i > x \mid T_{i-1} = t) f_{T_{i-1}}(t) \, dt$. $(x_i > x \mid T_{i-1} = t)$
+is the probability of not having an event between $T_{i-1}$ and $x$
+$$
+X_i > x \mid T_{i-1} = t \iff N(t+x) = i-1 \mid T_{i-1} = t
+$$
+
+$$
+T_{i-1} = t \iff N(t) = i-1 \quad \& \quad N(t-\delta) < i-1 \; \forall \delta > 0
+$$
+
+This implies
+
+\begin{align*}
+    P(X_i > x \mid T_{i-1} = t)
+    &= P \left( N(t+x)= i-i \mid N(t) = i-1, N(u) < i-1 \; \forall u < t \right) \\
+    &= P \left( N(t+x) - N(t) = 0 \mid N(t) = i-1, N(u) < i-1 \; \forall u < t\right)
+\end{align*}
+
+Now subtract $N(0) = 0$ to get
+
+\begin{align*}
+    P(X_i > x \mid T_{i-1} = t)
+    &= P \left( N(t+x) - N(t) = 0 \mid N(t) - N(0) = i-1, N(u) - N(0) < i-1 \; \forall u < t\right) \\
+    &= P \left( N(t+x) - N(t) = 0 \right) \\
+    &= P \left( N(x) = 0 \right) \\
+    &= \frac{(\lambda x)^0 e^{-\lambda x}}{0!} = e^{-\lambda x}
+\end{align*}
+
+$$
+\implies 1 - \int P(X_i > x \mid T_{i-1} = t) f_{T_{i-1}}(t) \, dt = 1 - \int e^{-\lambda x} \, dt = 1 - e^{-\lambda x}
+$$
+
 \item $\forall t$, find $F_{T_k}(t) = P(T_k \le t) = P(N(t) \ge k) = \sum_{j=k}^\infty \tfrac{(\lambda t)^j e^{-\lambda t}}{j!}$.
-Let's try: $f_{T_k} = F_{T_k}'(t)$. The derivative is 
-$\frac{\lambda^k t^{k-1} e^{-\lambda t}}{(k-1)!}$, the pdf of a $\Gamma(k, \lambda)$ distribution. 
+Let's try: $f_{T_k} = F_{T_k}'(t)$. The derivative is
+$\frac{\lambda^k t^{k-1} e^{-\lambda t}}{(k-1)!}$, the pdf of a $\Gamma(k, \lambda)$ distribution.
 \end{enumerate}
 \end{proof}
 \end{theorem}
 
+
+\begin{theorem}
+    Let $\vec{T} = \left( T_1, \ldots, T_n \right)$.
+    $$
+    f_{T \mid N(t) = n}\left( \vec{t}; n\right) = \begin{cases}
+        \frac{n!}{t^n} & 0 < t_1 < t_2 < \ldots < t_n \\
+        0 & \text{ otherwise }
+    \end{cases}
+    $$
+    Infinitesimal method: Instead of $P(X \le x)$, find $f_X(x) \, dx$. $f_X(x) \, dx = P(X \le x + dx) - P(X \le x)$
+\end{theorem}
+
+
+\begin{exmp}
+Passengers arrive according to a Poisson process. Find the waiting time mean. $N(t)$ arrivals each at time $T_i$, wait until $t$:
+$$
+E \left[ \frac{ \sum_{i=1}^{N(t)} \left(t - T_i \right) }{N(t)} \right].
+$$
+Must condition on $N(t)$:
+$$
+E \left[ \frac{ \sum_{i=1}^{N(t)} \left(t - T_i \right) }{N(t)} \mid N(t) = n \right] = \frac{1}{n} \left( n t - E \left[ \sum T_i \mid N(t) = n \right]  \right).
+$$
+$\vec{T}_i \mid N(t) = n$ has pdf $f_{\vec{T} \mid N(t) = n} \left( \vec(t) \mid n \right)$ which we can replace with ordered uniforms:
+
+$$
+E \left[ \sum T_i \mid N(t) = n \right] = E \left[ \sum U_{(i)} \right] = E \left[ \sum U_{i} \right] = \sum E [U_i] = \frac{nt}{2}
+$$
+
+It follows that
+
+$$
+E \left[ \frac{ \sum_{i=1}^{N(t)} \left(t - T_i \right) }{N(t)} \mid N(t) = n \right] =  \frac{1}{n} \left( n t - \frac{nt}{2} \right) = \frac{t}{2}.
+$$
+
+By the law of iterated expectations, we have
+
+$$
+E \left[ \frac{ \sum_{i=1}^{N(t)} \left(t - T_i \right) }{N(t)} \right] = E \left[ E \left[ \frac{ \sum_{i=1}^{N(t)} \left(t - T_i \right) }{N(t)} \mid N(t) = n \right] \right] = \frac{t}{2}
+$$
+
+\end{exmp}
+
+Additional property: To generate a Poisson process with $n$ events, you just generate a uniform on $[0, t]$.
+
+Say you have an inhomogeneous process (depends on t): $P\left( N(t+h) = n + 1 \mid N(t) = n \right) = h \lambda(t) + o(h)$.
+Still a Poisson process. If $T_i$ are arrival times
+$$
+\implies S_i = \Lambda(T_i) \text{ with } \Lambda(u) = \int_0^u \lambda(t) \, dt
+$$
+
+Then process of arrival time $S_i$ is Poisson with $\lambda = 1$.
 \end{document}
