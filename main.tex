@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage[]{amsmath, amsthm, amssymb}
+
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
 
 \usepackage{graphicx}
 
@@ -372,12 +373,43 @@ We find the roots of the characteristic polynomial, i.e. the values which make i
 Then solution to difference equation is 
 
 \begin{align*}
-p_n = 
+p_n =  x_1^n \times \left[ A_11 + A_12 n + A_13 n^2 + \ldots A_{1n} n \right]
 \end{align*}
 
 We need $d$ values
 
 \subsubsection{Inhomogeneous Case}
+
+$$
+p_n = c_1 p_{n-1} + c_2 p_{n-2} + \ldots + c_d p_{n-d} + K 
+$$
+
+This is the \emph{imhomogeneous case} because of the constant $K$ which does not depend on $n$.
+The solution is
+
+$$
+p_n = \text{solution to homogeneous eq.} + \text{particular solution}
+$$
+
+To calculate the particular solution, one has to find some $p_n$ which satisfies the equation. There is no foolproof way to do this and solutions might not be unique. The coefficients are then determined using the boundary conditions. 
+
+If particular solution cannot be found, one can reduce the inhomogeneous equation to homogeneous one by differentiation:
+
+\begin{exmp}
+
+\begin{align*}
+p D_{k+1} + q D_{k-1} + 1 - D_k = 0 \\
+p D_{k+2} + q D_k + 1 - D_{k+1} = 0
+\end{align*}
+
+The difference yields a homogeneous equation of order three:
+
+$$
+\Delta = p D_{k+2} + q D_k - D_{k+1} - p D_{k+1} - q D_{k-1} + D_k
+$$
+\end{exmp}
+
+We then have to find the roots of the third order polynomial, which is not an easy task as there is no systematic method. However, in case of linear equations, it is usually possible to find solutions. 
 
 \section{Long-Run Behaviour of Markov Chains}
 We consider the situation when $n$ large, $n \to \infty$.
@@ -552,6 +584,208 @@ If the chain is irreducible and ergodic, then the limiting distribution exists, 
 $$
 p_{ij}(n) \to \frac{1}{m_j}.
 $$
+\end{theorem}
+
+\subsection{Reducible Chains}
+
+\begin{theorem}[Decomposition Theorem]
+The state space $S$ can be decomposed $S = T \cup C_1 \cup C_2 \ldots$, where $T$ is a set of transient states and the $C_i$ are closed, irreducible persistent states.
+\end{theorem}
+
+\begin{exmp}[SRW]
+$X_0 = k$, $X_i = X_{i-1} + 1$ with prob $p$ and $X_{i} = X_{i-1} -1$ with prob $q$.
+We have
+$$
+p_k = P(\text{return to k} \mid X_0 = k)
+$$
+
+First-step Analysis:
+
+$$
+p_k = P(R \mid X_0 = k) = p p_{k+1} + q p_{k-1} = P(R \mid X_0 = k, X_1 = k+1) \, p + P(R \mid X_0 = k, X_1 = k-1) \, q
+$$
+
+$$
+P(A \mid X_0 = 0) = P \left( \cup_{i=1}^\infty B_i \mid X_0 = 0 \right),
+$$
+
+where $B_i = \{ X_i = 0 \text{ and } X_j \ne 0, \forall \, 1 \le j < i\}$.
+
+Since the events are disjoint, we have
+
+$$
+P \left( \cup_{i=1}^\infty B_i \mid X_0 = 0 \right) = \sum_{i=1}^\infty P(B_i \mid X_0 = 0)
+$$
+
+Let us define $f_{00}(i) =  P(B_i \mid X_0 = 0)$.
+
+$$
+p_{00}(i) = P(\text{ return to 0 in i steps} \mid X_0 = 0) = \begin{cases}
+0 & \text{ if i odd} \\
+{ i \choose i/2} p^{i/2} q^{i/2} & \text{ if i even} 
+\end{cases}
+$$
+
+\begin{align*}
+p_{00}(i) = p(X_i = 0 \mid X_0 = 0) 
+&= \sum_{k=1}^i P(X=0 \mid B_k, X_0 = 0) P(B_k \mid X_0 = 0) \\
+&=  \sum_{k=1}^i p_{00}(i-k) f_{00}(k)
+\end{align*}
+
+$$
+\implies p_i = \sum_{k=1}^i p_{i-k} f_k
+$$
+
+Inhomogeneous recurrence equation of order $i$ for $f_k$.
+
+
+\begin{defn}[Generating functions (GF)]
+The GF of a sequence $a_0, a_1, a_2 \in \mathbb{R}$ is $G_a(s) = \sum_{i=0}^\infty a_i s^i$. $G'_a(s) = \sum_{i=1}^\infty i a_i s^{i-1}$.
+\end{defn}
+
+$$
+a_i = f_{00}(i) = P(B_i \mid X_0 = 0)
+$$
+
+$$ 
+F_{00}(s) = \sum_{i=0}^\infty f_{00}(i) s^i,
+$$
+
+with $f_{00}(0) = 0$. 
+
+$$
+p_{00}(s) = \sum_{i=0}^\infty p_{00}(i) s^i,
+$$
+
+Since we have
+$p_{00}(i)  = \begin{cases}
+0 & \text{ if i odd} \\
+{ i \choose i/2} p^{i/2} q^{i/2} & \text{ if i even} 
+\end{cases}$, we get
+
+$$
+p_{00}(s) = \sum_{i=0}^\infty { 2i \choose i} \left( p \, q \, s^2 \right)^i = (1-4pqs^2)^{-1/2}
+$$
+
+Observe:
+
+$$
+p_{00}(1) = \sum p_{00}(i) = (1-4pq)^{-1/2}
+$$
+
+Observe that if $p=q$, this quantity is infinity.
+
+\begin{defn}[Convolution]
+Continuous case:
+$$
+\int g(y-x) f(x) dx 
+$$
+Discrete case:
+$$
+\sum_{k=0}^i g_{i-k} f_k
+$$
+\end{defn}
+
+\begin{theorem}
+Let us consider two sequences $a_0, a_1, \ldots$ and $b_0, b_1, b2$ with generating functions $G_a(s)$ and $G_b(s)$ then 
+$c_0,c_1,c_2$ where $c_k = \sum_{i=0}^k a_i b_{k-i}$, then 
+$G_c(s) = G_a(s) \, G_b(s)$.
+
+\begin{proof}
+$$
+G_a(s) G_b(s) = \left( \sum_{i=0}^\infty a_i s^i \right) \left( \sum_{j=0}^\infty b_j s^j \right) = \sum_{k=0}^\infty c_k s^k,
+$$
+
+where $c_k = \sum_{(i,j) \text{s.t.} i+j=k} a_i b_j = \sum_{i=0}^k a_i b_{k-i}$.
+\end{proof}
+\end{theorem}
+
+We have proven that $p_{00}(i) = \sum_{k=1}^i p_{00}(i-k) f_{00}(i)$ for $i \ge 1$. When $p=0$, $p_{00}(0) = 1$ and $f_{00}(0) = 0$.
+
+\end{exmp} 
+
+\subsection{Reversible Chains}
+
+Let $\{X_n\}$ be an irreducible, persistent, positive MC ($\implies !\exists \text{ stationary distribution } \pi$). 
+
+$$
+\forall n \, X_n \sim \pi.
+$$
+
+$N$ large, $Y_n = X_{N-n}$.
+
+\begin{theorem}
+$Y_n$ is a MC with transition probabilities 
+$$
+q_{ij} = p_{ji} \frac{\pi_j}{\pi_i}
+$$
+\begin{proof}
+
+\begin{align*}
+    \forall n \, P\left( Y_n = j \mid Y_{n-1} = i, Y_{n-2} = k, \ldots \right) 
+    &= P \left( X_{N-n} = j \mid X_{N-(n-1)} = i, X_{N-(n-2)}=k \right) \\
+    &= \frac{P \left( X_{N-n} = j, X_{N-(n-1)} = i, X_{N-(n-2)}=k \right) }{P \left( X_{N-(n-1)}=i, X_{N-(n-2)} = k\right)} \\
+    &= \frac{P(X_{N-(n-1)} = i \mid X_{N-n} = j) P(X_{N-n} = j) }{P(X_{N-(n-1)})} \\
+    &= p_{ji}  \frac{\pi_j}{\pi_i}
+\end{align*}
+
+\end{proof}
+\end{theorem}
+
+\begin{defn}
+A MC is called reversible if 
+$$
+\forall (i,j) \, p_{ij} = q_{ij}
+$$
+\end{defn}
+
+$$
+\implies \pi_i p_{ij} = \pi_j p_{ji} \quad \pi \text{ is in detailed balance with} P
+$$
+
+\begin{theorem}
+Let $P$ be transition matrix of irreducible chain. Suppose $\exists$ distribution $\pi$ s.t. $\forall (i,j) \in S^2 \, \pi_i p_{ij} = \pi_j p_{ji}$,
+then $\pi$ is a stationary distribution of the Markov chain. 
+
+\begin{proof}
+We prove that $\pi = \pi P$. 
+$$
+\forall i \, \pi_i = \sum_j \pi_j p_{ji}
+$$
+
+\end{proof}
+\end{theorem}
+
+\section{Markov Chain Monte Carlo (MCMC)}
+MCMC = art of building MC with specified limiting distributions.
+
+Let $f_X(x)$ be a distribution, we want $E(X) = \int x f(x) \, dx$. 
+
+\section{Continuous Time Processes}
+
+\subsection{Properties of Poisson Process}
+
+\subsubsection{Inter-arrival & Wait Times}
+
+$$
+T_i = \sum_{j=1}^i X_j \qquad X_i = T_i - T_{i-1}
+$$
+
+\begin{theorem}
+If the process is Poisson, then
+\begin{enumerate}
+\item X_i \overset{iid}{\sim} \exp(\lambda)
+\item \forall k, T_k \sim \Gamma(k, \lambda)
+\end{enumerate}
+\begin{proof}
+\begin{enumerate}
+\item $F_X(x) = P(X_i \le x)$. Can do it in terms of $T$'s: $P(T_i - T_{i-1} \le x)$, but joint distribution very hard. So let's do it in terms of $N(t)$'s:
+First: $X_1 = T_1 \implies f_X(t) = \lambda e^{-\lambda t}$. But we don't get far. 
+\item $\forall t$, find $F_{T_k}(t) = P(T_k \le t) = P(N(t) \ge k) = \sum_{j=k}^\infty \tfrac{(\lambda t)^j e^{-\lambda t}}{j!}$.
+Let's try: $f_{T_k} = F_{T_k}'(t)$. The derivative is 
+$\frac{\lambda^k t^{k-1} e^{-\lambda t}}{(k-1)!}$, the pdf of a $\Gamma(k, \lambda)$ distribution. 
+\end{enumerate}
+\end{proof}
 \end{theorem}
 
 \end{document}
