@@ -985,4 +985,148 @@ $$
 $$
 
 Then process of arrival time $S_i$ is Poisson with $\lambda = 1$.
+
+\subsection{Birth Process (BP)}
+
+$N(t) \qquad \lambda h + o(h)$
+
+Calculate:
+$P \left( N(t+h) = n + m \mid N(t) = m \right)$
+
+Binomial:
+$$
+P \left( N(t+h) = n + m \mid N(t) = m \right) = {m \choose n} \left( \lambda h + o(h) \right)^m \left[ 1 - \lambda h + o(h) \right]^{n-m}
+$$
+
+When $m = 0$, 
+
+$$
+p_{nn}(h) = \left[ 1 - \lambda h + o(h) \right]^{n} = 1 - n \lambda h + o(h)
+$$
+
+Expansion: $(1-x)^a = 1 - ax + o(x)$.
+
+When $m = 1$, 
+
+$$
+p_{n,n+1}(h) = n ( \lambda h + o(h) ) \left[ 1 - \lambda h + o(h) \right]^{n-1} =  n \lambda h + o(h) 
+$$
+
+When $m \ge 2$
+$$
+p_{n,n+m}(h) = o(h)
+$$
+
+\subsection{Birth and Death Process (BDP)}
+
+$$
+PP \subset BP \subset BDP \subset \text{Continuous time MC}
+$$
+
+$$
+PP \subset \text{Counting Process}
+$$
+
+$$
+BDP \subset \text{Markov Queues} \subset \text{Queues}
+$$
+
+$X(t)$ size of the population, $X(0) = i$.
+
+$X(t)$ is an MC with transition probabilities
+
+$$
+P \left( X(t+h) = n + m \mid X(t) = n \right) = \begin{cases}
+\lambda_n h + o(h) & m = 1 \\
+\mu_n h + o(h) & m = -1 \\
+o(h) & |m| \ge 2 
+\end{cases}
+$$
+
+When $m=0$
+$$
+P \left( X(t+h) = n \mid X(t) = n \right) = P(0B,0D \mid X(t) = n ) + P(1B, 1D \mid X(t) = n) + \ldots
+$$
+
+$$
+P(0B,0D \mid X(t) = n ) = (1 - \mu_n h + o(h) ) ( 1 - \lambda_n h + o(h) ) 
+$$
+
+Since all other probabilities are $o(h)$, we have
+$$
+P \left( X(t+h) = n \mid X(t) = n \right) = 1 - \lambda_n h - \mu_n h + o(h).
+$$
+
+$$
+P(B \mid B \cup D) = \frac{\lambda_i h + o(h)}{\lambda_i h + \mu_i h + o(h)} =  \frac{\lambda_i}{\lambda_i + \mu_i}
+$$
+
+Arrival at post office (Birth):
+PP with rate $\lambda$ 
+Service at post office (Death):
+Exponential service time 
+
+\subsubsection*{$M/M/1$ (Markov, Markov, 1 service)}
+
+$\lambda_n = \lambda$, $\mu_n = \begin{cases}
+0 & \text{ if } n = 0 \\
+\mu & \text{ if } n \ge 1. \end{cases}$
+
+\subsubsection*{$M/M/K$ (Markov, Markov, K service)}
+
+$\lambda_n = \lambda$, $\mu_n = \begin{cases}
+0 & \text{ if } n = 0 \\
+k \mu & \text{ if } n \ge k \\
+n \mu & \text{ if } n \le k
+\end{cases}$.
+
+\subsubsection{Probability of Extinction}
+$X(t)$ = size of population at time $t$.
+$X(0) = i$.
+
+$u_i = P(\text{extinction} \mid X(0) = i)$, 
+$e_i = E(\text{time to extinction} \mid X(0) = i)$
+
+$J_i$ = jump chain.
+
+\begin{align*}
+U_i = P(W \mid J_0 = i) 
+&= p(W \mid J_0 = i, J_1 = i + 1) \frac{\lambda_i}{\lambda_i + \mu_i} + P(W \mid J_0 = i, J_1 = i - 1) \frac{\mu_i}{\lambda_i + \mu_i} \\
+&= U_{i+1} \frac{\lambda_i}{\lambda_i + \mu_i} + U_{i-1} \frac{\mu_i}{\lambda_i + \mu_i}
+\end{align*}
+
+Boundary condition(s): $U_0 = 1$.
+
+$e_i = \infty$ if $U_i \ne 1$.
+
+$$
+e_i = \int E( T \mid W, X(0) = i, T_i = t) f_{T_i}(t) \, dt
+$$
+
+By law of total expectation 
+
+\begin{align*}
+E( T \mid W, X(0) = i, T_i = t)
+&= E(T \mid W, X(0) = i, X(t) = i+ 1, T_i = t) P(X(t) = i+1 \mid W, X(0) = i, T_1 = t) \\
+&\qquad + E(T \mid W, X(0) = i, X(t) = i - 1, T_i = t) P(X(t) = i-1 \mid W, X(0) = i, T_1 = t)
+\end{align*}
+
+We have 
+
+$$
+P(X(t) = i+1 \mid W, X(0) = i, T_1 = t)  = P(J_1 = i + 1 \mid J_0 = i, W) = \frac{P(J_1, J_0, W)}{P(J_0, W)}
+$$
+
+For the expectation,
+
+$$
+E(T \mid W, X(0) = i, X(t) = i + 1, T_1 = t) = t + E( T \mid W, X(0) = i + 1, T_1 = t)
+$$
+
+$$
+e_i = p_{i,i+1}^\star \left[ E(T_1) + e_{i+1} \right] + p_{i,i-1}^\star \left[ E[T_1] + e_{i-1} \right]
+$$
+
+$ E(T_1) = \frac{1}{\lambda_i + \mu_i}$.
+
 \end{document}
