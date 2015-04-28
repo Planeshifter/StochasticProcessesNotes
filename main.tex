@@ -1129,4 +1129,69 @@ $$
 
 $ E(T_1) = \frac{1}{\lambda_i + \mu_i}$.
 
+\subsubsection{Average time until extinction - Clarification}
+
+$$
+\mathbb{E} \left( T, X(0)=i, W, X(t)=i+1, T_i = t \right)
+$$
+
+$$
+t + \mathbb{E} \left[ T \mid W, X(0) = i+1, T_0 = 0 \right]
+$$
+
+Can eliminate $T_0 = 0$.
+
+\subsubsection{Distribution of inter-event times}
+
+For Poisson Process:
+
+$$
+X_i \ge = \, \forall x \ge 0 \; F_X(x) = P \left( X_i \le x \right) = 1 - P \left( X_i > x \right) = 1 - \int P(X_i > x \mid T_{i-1} = t) f_{T_{i-1}}(t) \, dt
+$$
+
+We have
+$$
+T_{i-1} = t \iff N(t) = i-1, \, \forall u < t \; N(u) < i-1
+$$
+
+We have to use another way: Set up a differential equation.
+
+$$
+G_i(x) = P(X_i > x) \quad G_i(x+h) = P(X_i > x + h) = \int P(X_i > x+h \mid T_{i-1} = t) f_{T_{i-1}}(t) \, dt
+$$
+
+Hence,
+
+\begin{align*}
+G_i(x+h) 
+&= \int P \left(X_i > x \text{ and not event in} [t+x,t+x+h] \mid T_{i-1} = t \right) f_{T_{i-1}}(t) \, dt \\
+&= \int P \left( X_i > x \mid T_{i-1} = t \right) \left[ 1 - h (\lambda_k + \mu_k) + o(h) \right] \\
+&= \left[ 1 - h (\lambda_k + \mu_k) + o(h) \right] P(X_i > x) \\ 
+&= \left[ 1 - h (\lambda_k + \mu_k) + o(h) \right] G_i(x) 
+\end{align*}
+
+$$
+\frac{G_i(x+h)-G_i(x)}{h} = - (\lambda_k + \mu_k) G_i(x) + \frac{o(h)}{h} \implies G_i'(x) = - (\lambda_k + \mu_k) G_i(x)
+$$
+
+We get $G_i(x) = e^{-(\lambda_k + \mu_k) x}$.
+
+\begin{exmp}
+We have $N$ machines $M \le N$ operate at one time. The life-time of a machine is $Exp(\mu)$. Time of repair is $Exp(\lambda)$, at most $R$ machines can be repaired at the same time. Interested in $X(t)$, the number of non-broken machines.
+Want: mean number of good machines
+
+$$
+E(\text{\# of operating machines}) = 0 \, P(X(t) = 0) + 1 \, P(X(t) = 1) + \ldots + M \, P(X(t) \ge M )
+$$
+
+Need to find stationary distribution:
+
+$$
+P(X(t) = j \mid X(0) = i) = p_{ij}(t) 
+$$
+
+\end{exmp}
+
+
+
 \end{document}
