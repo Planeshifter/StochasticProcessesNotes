@@ -1192,6 +1192,206 @@ $$
 
 \end{exmp}
 
+\subsection{Continuous Time Markov Chain}
 
+Poisson Process, Birth Death Process
+$X(t) \; t \ge 0$.
+
+Has Markov property if 
+$$
+P(X(t_n) = x_n \mid X(0) = x_0, X(1) = x_1, \ldots, X(t_{n-1} = x_{n-1}) \; \forall (x_0, x_1, \ldots, x_n) \in S^{n+1} \, \forall t_1 < t_2 < \ldots < t_n
+$$
+
+We have
+$$
+P(X(t+h) = j \mid X(t) = i) = g_{ij} h + o(h) \text{ if } i \ne j
+$$
+
+
+$G = [g_{ij}]$ (generator of MC)
+
+$$
+G = \lim_{h \to 0} \frac{1}{h} \left[ P(h) - I \right]
+$$
+
+$P(h) = \left[ P(X(h) = j \mid X(0) = i \right]_{ij}$
+
+BDP:
+$\lambda_n \, \mu_n, S = \mathbb{N}$
+
+Generator is 
+$$
+G = \begin{pmatrix}
+- \lambda_0 & \lambda_0 & 0  & \ldots & \ldots \\
+\mu_1 & -(\mu_1 + \lambda_1) & \lambda_1 & 0 & \ldots \\
+\end{pmatrix}
+$$
+
+Markov property: $X(t), \; t \ge 0$. Then 
+
+$$
+\sum_{j \in S} p_{ij}(t) = 1, \; p_{ij}(t) \ge 0,
+$$
+
+where $p_{ij}(t) = P \left( X(t) = j \mid X(0) = i \right)$.
+
+Kolmogorov equations:
+$$
+p_{ij}(t+s) = \sum_{k \in S} p_{ik}(t) p_{kj}(s)
+$$
+
+In matrix form:
+$$
+P(s+t) = P(t) P(s)
+$$
+
+This is a stochastic semi-group. $P(t)$ is standard if $P(t) \to I$ as $t \to 0$, which means 
+$$
+\forall i, p_{ii}(t) \to 1 \quad i \ne j \; p_{ij}(t) \to 0.
+$$
+The limit when $h$ tends to zero is
+$$
+\lim_{h\to 0} \frac{1}{h} \left[ P(h) - I \right] = G.
+$$
+Not too surprising, since the infinitesimal probabilities as $h \to 0$ are exactly how we have defined $G$.
+
+Sojourn times 
+
+$$
+U = \inf \left\{ t \ge 0 \text{ s.t. } X(t+s) \ne i \mid X(s) = i \right\}
+$$
+
+Then we can prove that $U \sim \exp(-g_{ii})$.
+
+\begin{theorem}
+$P(i \to j) = \frac{g_{ij}}{g_{ii}}$
+\end{theorem}
+
+If limiting distribution exists, we have
+
+$$
+P(X(t) = j \mid X(0) = i) \to \pi_j
+$$
+
+$$
+\forall (i,j)  P( X(t+h) = j \mid X(0) = i) = \sum_{k \in S} P(X(t+h) = j \mid X(t) = k) p_{ik}
+$$
+
+Differential equation we get
+$$
+p_{ij}'(t) = \sum_{k \in S} p_{ik}(t) g_{kj} \iff P'(t) = P(t) G
+$$
+
+$$
+P(t) = \exp( tG ) = \sum \frac{(tG)^n}{n!}
+$$
+
+\begin{exmp}
+Let $\lambda \mu > 0$ and let $X$ be a Markov chain on $\{0,1\}$ with generator 
+$$
+G = \begin{pmatrix}
+-\mu & \mu \\
+\lambda & -\lambda 
+\end{pmatrix}
+$$
+\end{exmp}
+
+\section{Queues}
+
+Classification: Letter / Letter / \#
+
+First letter is arrival, second departure, \# denotes the number of servers
+
+Letter can be either M for Markov, D for deterministic or G for general
+
+\begin{exmp}
+M/M/1 queue. 
+
+\begin{align*}
+\lambda_n = \lambda \; \forall n \\ 
+\mu_n = \mu \; \forall n \ge 1
+\end{align*}
+
+Conditions for stationary distribution:
+
+\begin{align*}
+\theta_0 = 1 \\
+\theta_j = \frac{\lambda_0 \ldots \lambda_{j-1}}{\mu_1 \ldots \mu_{j-1}} = \left( \frac{\lambda}{\mu} \right)^j \\
+\sum \theta_j = \frac{1}{1 - \tfrac{\lambda}{\mu} }
+\end{align*}
+
+$L$ = mean length of queue 
+from geometric distribution: $L = \frac{\lambda}{\mu-\lambda}$
+
+Prob of being served right away: $\pi_0$
+
+We have
+$$
+\pi_k = \theta_k \pi_0 = \left( 1 - \tfrac{\lambda}{\mu} \right) \left( \tfrac{\lambda}{\mu}\right)^k
+$$
+
+Waiting time before service: 
+
+$W = T_1 + T_2$
+
+$T_1$: waiting before service
+$T_2$: service time
+
+$\forall w \ge 0:$
+
+$$
+F_W(w) = P(W \le w) = \sum_{n=0}^\infty P(W \le w \mid N = n) \left( 1 - \tfrac{\lambda}{\mu} \right) \left( \tfrac{\lambda}{\mu}\right)^k 
+$$
+
+We have 
+
+$$
+P(W \le w \mid N = n) = \int_0^W \frac{\mu^{n+1} t^n e^{-\mu t}}{n!} \, dt = \int_0^W \theta e^{-\theta t} \, dt 
+$$
+
+Therefore,
+
+$$
+W \sim \exp(\mu - \lambda) \implies E[W] = \frac{1}{\mu - \lambda}
+$$
+
+Fundamental queing formula $L = \lambda E(W)$.
+
+Distribution of idle and busy times:
+
+Idle Times:
+$$
+I_i \sim \exp(\lambda) \quad E(I_i) = \frac{1}{\lambda}
+$$
+
+$$
+P(\text{system is empty}) = \pi_0 = \frac{E(I)}{E(I) + E(B)} 
+$$
+
+So we get $E(B) = \frac{1}{\mu - \lambda}$
+\end{exmp}
+
+\begin{exmp}{M/M/s queue}
+$ \lambda < s \mu$ for limiting distribution to exist.
+\end{exmp}
+
+\begin{exmp}{M/G/1}
+
+Assume that we are interested in asymptotic queue length.
+
+Let $D_n$ be time of departure of n-th customer 
+$\mathcal{Q}_n = \mathcal{Q} \left( D_n^+ \right)$. 
+
+Imagine $\mathcal{Q}_n > 0$. Then I want $\mathcal{Q}_{n+1} = \mathcal{Q}_n - 1 + A$,
+
+where $A$ is number of arrivals in service time of $(n+1)$th customer, $S_{n+1}$. $A \sim \operatorname{Pois}(\lambda S_{n+1})$.
+So it is a Markov chain because $\mathcal{Q}_{n+1}$ depends only on $\mathcal{Q}_{n}$.
+To find it, establish irreducibility and then solve $\pi = \pi P$,
+where $P = [p_{ij}]$.
+When $i=0$, then
+$$
+P(\mathcal{Q}_{n+1} = j \mid \mathcal{Q}_{n} = 0) = P(A=j) = E(P(A = j \mid S) ) = E \left[ \frac{e^{-\lambda S} (\lambda S)^j}{j!} \right]
+$$
+\end{exmp}
 
 \end{document}
